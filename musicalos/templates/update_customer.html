@@ -1,0 +1,31 @@
+﻿{% extends "layout.html" %}
+
+{% block title %}Update Customer{% endblock %}
+
+{% block content %}
+    <h3>Update Customer Info:</h3>
+    <form id="add_customer" action="/add_customer" method="post">
+        <input type="hidden" name="customerID" value="{{ customer[0] }}" />
+        First name: <input type="text" name="firstName" value="{{ customer[1] }}" />
+        <br />
+        Last name: <input type="text" name="lastName" value="{{ customer[2] }}" />
+        <br />
+        Email: <input type="text" name="email" value="{{ customer[3] }}" />
+        <br />
+        Confirm Email: <input type="text" name="confirmEmail" value="{{ customer[3] }}" />
+        <br />
+        Payment Method:
+        <select name="paymentMethod">
+            {% if paymentMethod == "creditCard" %}
+            <option selected value="creditCard">Credit Card</option>
+            <option value="payAtDoor">Pay at the door</option>
+            {% else %}
+            <option value="creditCard">Credit Card</option>
+            <option selected value="payAtDoor">Pay at the door</option>
+            {% endif %}
+        </select>
+        <br />
+        <input type="submit" value="Submit" />
+    </form>
+    <br />
+{% endblock %}

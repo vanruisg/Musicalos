@@ -1,0 +1,22 @@
+﻿{% extends "layout.html" %}
+
+{% block title %}Add Venue{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h3>Add Venue</h3>
+    </div>
+    <div class="container">
+        <form id="add_venue" action="/add_venue" style="max-width:40%">
+            <div class="form-group">
+                <input type="text" class="form-control" name="venueName" placeholder="Venue Name" />
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" name="capacity" placeholder="Capacity" />
+            </div>
+            <div>
+                <input type="submit" class="btn btn-success" value="Submit" />
+            </div>
+        </form>
+    </div>
+{% endblock %}

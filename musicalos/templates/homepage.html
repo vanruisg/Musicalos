@@ -1,0 +1,72 @@
+﻿{% extends "layout.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="jumbotron img-background" style="background-image:url(https://www.udiscovermusic.com/wp-content/uploads/2019/04/best-jazz-songs.jpg); background-size:cover">
+            <h2 class="display-4" id="band" style="color:gold; font-weight:bold; text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black">Buy Tickets to Concerts in New Orleans</h2>
+            <h3 class="lead" style="color:gold; font-weight:bold; text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black">Simply pick a date, find out what concerts are happening in the city, and click to place an order</h3>
+        </div>
+        <div class="container">
+            <div class="row">
+                <br />
+                <h3>Select a Date</h3>
+                <!-- Form code begins -->
+                <form method="post">
+                    <div class="form-group" style="max-width:20%">
+                        <!-- Date input -->
+                        <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" />
+                    </div>
+                    <table class="table" style="width:70%">
+                        <thead>
+                            <tr>
+                                <th scope="col">Concert Name</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Concert Name 1</th>
+                                <td>6:00PM</td>
+                                <td>$20.00</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Concert Name 2</th>
+                                <td>8:00PM</td>
+                                <td>$50.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="form-group">
+                        <!-- Submit button -->
+                        <input type="button" class="btn btn-success" style="margin-top:15px; margin-bottom:10px" value="Buy Tickets">
+                    </div>
+                </form>
+                <!-- Form code ends -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var date_input = $('input[name="date"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            var options = {
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            };
+            date_input.datepicker(options);
+        })
+    </script>
+{% endblock %}

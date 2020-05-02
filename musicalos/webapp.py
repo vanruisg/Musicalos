@@ -57,8 +57,23 @@ def add_tickets():
 
 @webapp.route('/display_orders')
 def display_orders():
-    return render_template('display_tickets.html')
+    return render_template('display_orders.html')
 
 @webapp.route('/delete_order')
 def delete_order():
     return
+
+########################################
+# CONCERTS
+########################################
+@webapp.route('/display_concerts')
+def display_concerts():
+    return render_template('display_concerts.html')
+
+
+########################################
+# CONCERTS-ORDERS
+########################################
+@webapp.route('/concerts_orders')
+def concerts_orders():
+    return render_template('concerts_orders.html')

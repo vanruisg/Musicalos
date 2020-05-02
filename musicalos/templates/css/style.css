@@ -1,0 +1,20 @@
+.btn-success {
+	color: #fff;
+	background-color: #5cb85c;
+	border-color: #4cae4c;
+}
+
+.form-group {
+	width: 20%;
+}
+
+.jumbotron {
+  background-image: url("https://www.udiscovermusic.com/wp-content/uploads/2019/04/best-jazz-songs.jpg");
+  background-size: cover;
+}
+
+#band, .lead{
+	color: gold; 
+	font-weight: bold;
+	text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;
+}

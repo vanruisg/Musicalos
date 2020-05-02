@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+    <script>
+    $(document).ready(function(){
+      var date_input=$('input[name="date"]'); //our date input has the name "date"
+      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+      var options={
+        format: 'mm/dd/yyyy',
+        container: container,
+        todayHighlight: true,
+        autoclose: true,
+      };
+      date_input.datepicker(options);
+    })
+</script>
+</head>
+<body>
+    <div class="container">
+        <h1>Musicalos</h1>
+    </div>
+    <div class="container">
+        <nav class="navbar navbar-inverse" style="background-color:rebeccapurple">
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Artists</a></li>
+                    <li><a href="#">Venues</a></li>
+                    <li><a href="#">Concerts</a></li>
+                    <li><a href="#">Customers</a></li>
+                    <li><a href="#">Orders</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <br />
+    <div class="container">
+        <div class="jumbotron img-background">
+  <h2 class="display-4" id="band">Buy Tickets to Concerts in New Orleans</h2>
+  <h3 class="lead">Simply pick a date, find out what concerts are happening in the city, and click to place an order</h3>
+</div>
+            <div class="container">
+            <div class="row">             
+                    <br />
+                    <h3>Select a Date</h3>   
+                    <!-- Form code begins -->
+                    <form method="post">
+                      <div class="form-group"> <!-- Date input -->
+                        <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                      </div>
+                      <table class="table" style="width:70%">
+                          <thead>
+                            <tr>
+                              <th scope="col">Concert Name</th>
+                              <th scope="col">Time</th>
+                              <th scope="col">Cost</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">Concert Name 1</th>
+                              <td>6:00PM</td>
+                              <td>$20.00</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Concert Name 2</th>
+                              <td>8:00PM</td>
+                              <td>$50.00</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      <div class="form-group"> <!-- Submit button -->
+                        <input type="button" class="btn btn-success" style="margin-top:15px; margin-bottom:10px" value="Buy Tickets">
+                      </div>
+                     </form>
+                     <!-- Form code ends -->
+            </div>          
+            </div>
+            </div>
+    </div>
+    <br />
+
+
+</body>
+</html>
+

@@ -35,19 +35,23 @@
     <br />
 
     <div class="container">
+    	<div class='btn-toolbar pull-right'>
+            <div class='btn-group'>
+                <!-- Button trigger modal -->
+                <input type="button" class="btn btn-success" style="margin-top:15px; margin-bottom:10px" value="View Concert Orders" onclick="window.location = '/concerts_orders'" />
+            </div>
+        </div>
          <h2>Orders</h2>
             <table class="table table-striped table-bordered" style="width:50%; margin-top:50px">
             <thead style="background-color:gold">
                 <th>Order ID</th>
                 <th>Customer ID</th>
-                <th>Concert ID</th>
                 <th>Manage Order</th>
             </thead>
             <tbody>
                     <tr>
                         <td>{{ r[0] }}</td>
                         <td>{{ r[1] }}</td>
-                        <td>{{ r[2] }}</td>
                         <td><input type="button" class="btn btn-success" name="Delete" value="Delete" onclick="window.location = '/delete_order/{{r[0]}}'" /></td>
                     </tr>
             </tbody>

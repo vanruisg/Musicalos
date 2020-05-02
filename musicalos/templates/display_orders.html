@@ -3,5 +3,32 @@
 {% block title %}Orders{% endblock %}
 
 {% block content %}
-
+    <div class="container">
+        <div class="row">
+            <div class="container">
+                <div class="col-sm-5">
+                    <h3>Orders</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container">
+        <table table class="table table-striped table-bordered" style="width:56%">
+            <thead style="background-color:gold">
+                <tr>
+                    <th class="col-md-1">Order ID</th>
+                    <th class="col-md-1">Customer ID</th>
+                    <th class="col-md-1">Manage Order</th>
+                </tr>   
+            </thead>
+            <tbody>
+                <tr>
+                    <td>5</td>
+                    <td>350</td>
+                    <td><input type="button" class="btn btn-success" name="Delete" value="Delete" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

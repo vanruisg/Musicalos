@@ -48,6 +48,10 @@ def display_customers():
 def update_customer():
     return render_template('update_customer.html')
 
+@webapp.route('/add_customer_order')
+def add_customer_order():
+    return render_template('add_customer_order.html')
+
 ########################################
 # ORDERS
 ########################################

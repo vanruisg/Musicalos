@@ -14,10 +14,6 @@ def homepage():
 ########################################
 # ARTISTS
 ########################################
-@webapp.route('/add_artist')
-def add_artist():
-    return render_template('add_artist.html')
-
 @webapp.route('/display_artists')
 def display_artists():
     return render_template('display_artists.html')
@@ -25,10 +21,6 @@ def display_artists():
 ########################################
 # VENUES
 ########################################
-@webapp.route('/add_venue')
-def add_venue():
-    return render_template('add_venue.html')
-
 @webapp.route('/display_venues')
 def display_venues():
     return render_template('display_venues.html')

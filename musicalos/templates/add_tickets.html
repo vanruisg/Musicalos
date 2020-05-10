@@ -1,6 +1,6 @@
 ﻿{% extends "layout.html" %}
 
-{% block title %}Add Tickets{% endblock %}
+{% block title %}Buy Tickets{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -51,7 +51,7 @@
             </div>
             <br />
             <div class="container">
-                <input type="submit" class="btn btn-success" value="Place Order" style="width:150px" />
+                <input type="button" class="btn btn-success" style="margin-top:15px; margin-bottom:10px" value="Place Order" onclick="window.location ='/create_customer_account'"/>
             </div>
         </form>
     </div>

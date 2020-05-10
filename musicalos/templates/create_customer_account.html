@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}Create Customer Account{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="container">
+                <div class="col-sm-12">
+                    <h3>Create Customer Account</h3>
+                    <form id="add_order" action="/add_order" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="firstName" placeholder="Enter First Name" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="lastName" placeholder="Enter Last Name" />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" placeholder="Enter Email Address" />
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="paymentMethod">
+                                <option value="" disabled selected hidden>Select Payment Type</option>
+                                <option value="creditCard">Credit Card</option>
+                                <option value="payAtDoor">Pay at the door</option>
+                            </select>
+                        </div>
+                    </form>
+                    <div>
+                            <input type="submit" class="btn btn-success" value="Submit" onclick="window.location ='/add_order'"/>
+                    </div>
+                <hr>
+                    <h3>Sign Into Existing Customer Account</h3>
+                        <div>
+                            <input type="submit" class="btn btn-success" value="Sign In" />
+                        </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

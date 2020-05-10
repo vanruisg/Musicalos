@@ -48,9 +48,9 @@ def display_customers():
 def update_customer():
     return render_template('update_customer.html')
 
-@webapp.route('/add_customer_order')
-def add_customer_order():
-    return render_template('add_customer_order.html')
+@webapp.route('/create_customer_account')
+def create_customer_account():
+    return render_template('create_customer_account.html')    
 
 ########################################
 # ORDERS
@@ -58,6 +58,10 @@ def add_customer_order():
 @webapp.route('/add_tickets')
 def add_tickets():
     return render_template('add_tickets.html')
+
+@webapp.route('/add_order')
+def add_order():
+    return render_template('add_order.html')    
 
 @webapp.route('/display_orders')
 def display_orders():

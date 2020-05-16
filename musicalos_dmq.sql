@@ -44,6 +44,6 @@ INSERT INTO orders (customerID, quantity) VALUES (:customerIDInput, :quantityInp
 UPDATE customers SET firstName = :firstNameInput, lastName = :lastNameInput, email = :emailInput, paymentMethod = :paymentMethod_selected_from_dropdown_list WHERE customerID = :customerID_from_update_customer_form;
 
 -- delete an order
-DELETE FROM orders WHERE orderID = :orderID_selected_from_display_orders_page
+DELETE FROM orders WHERE orderID = :orderID_selected_from_display_orders_page;
 
 

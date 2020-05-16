@@ -23,7 +23,7 @@ CREATE TABLE venues (
 CREATE TABLE artists (
   artistID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   bandName VARCHAR(255) NOT NULL,
-  bandGenre VARCHAR(255) NOT NULL
+  bandGenre VARCHAR(255)
 )Engine=InnoDB;
 
 -- Orders
@@ -41,7 +41,7 @@ CREATE TABLE concerts (
   artistID INT NOT NULL,
   venueID INT NOT NULL,
   startTime TIME(0) NOT NULL,
-  concerDate DATE NOT NULL,
+  concertDate DATE NOT NULL,
   cost DECIMAL(13, 2) NOT NULL,
   FOREIGN KEY (artistID) REFERENCES artists (artistID)
     ON DELETE CASCADE

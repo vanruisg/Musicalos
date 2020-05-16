@@ -9,7 +9,7 @@ CREATE TABLE customers (
   firstName VARCHAR(255) NOT NULL,
   lastName VARCHAR(255) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
-  paymentMethod VARCHAR(255) NOT NULL
+  paymentMethod ENUM('Credit Card','Pay at the door')
 )Engine=InnoDB;
 
 -- Venues
@@ -40,10 +40,10 @@ CREATE TABLE concerts (
   concertID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   artistID INT NOT NULL,
   venueID INT NOT NULL,
-  startTime TIME NOT NULL,
-  date DATE NOT NULL,
-  cost DECIMAL(20, 2) NOT NULL DEFAULT '10.00',
-  FOREIGN KEY (artistID) REFERENCES artists (artisID)
+  startTime TIME(0) NOT NULL,
+  concerDate DATE NOT NULL,
+  cost DECIMAL(13, 2) NOT NULL,
+  FOREIGN KEY (artistID) REFERENCES artists (artistID)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   FOREIGN KEY (venueID) REFERENCES venues (venueID)
@@ -51,10 +51,13 @@ CREATE TABLE concerts (
     ON UPDATE CASCADE
 )Engine=InnoDB;
 
--- Concerts-Orders
-CREATE TABLE concerts-orders (
+-- Concerts_Orders
+CREATE TABLE concerts_orders (
   concertID INT NOT NULL,
   orderID INT NOT NULL,
+  quantity INT NOT NULL,
+  CONSTRAINT quantity CHECK (quantity BETWEEN 1 AND 5), 
+  PRIMARY KEY (concertID, orderID),
   FOREIGN KEY (concertID) REFERENCES concerts (concertID)
     ON DELETE CASCADE
     ON UPDATE CASCADE,

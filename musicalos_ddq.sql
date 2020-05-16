@@ -2,7 +2,7 @@
 -- Musicalos Data Definition Queries
 -- Project Step 4 Draft Version
 
-
+-- Create Tables
 -- Customers
 CREATE TABLE customers (
   customerID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -26,15 +26,6 @@ CREATE TABLE artists (
   bandGenre VARCHAR(255)
 )Engine=InnoDB;
 
--- Orders
-CREATE TABLE orders (
-  orderID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  customerID INT NOT NULL,
-  FOREIGN KEY (customerID) REFERENCES customers (customerID)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
-)Engine=InnoDB;
-
 -- Concerts
 CREATE TABLE concerts (
   concertID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -47,6 +38,15 @@ CREATE TABLE concerts (
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   FOREIGN KEY (venueID) REFERENCES venues (venueID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)Engine=InnoDB;
+
+-- Orders
+CREATE TABLE orders (
+  orderID INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  customerID INT NOT NULL,
+  FOREIGN KEY (customerID) REFERENCES customers (customerID)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )Engine=InnoDB;
@@ -65,3 +65,40 @@ CREATE TABLE concerts_orders (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 )Engine=InnoDB;
+
+-- Insert Sample Data 
+-- Customers
+INSERT INTO customers (firstName, lastName, email, paymentMethod) VALUES
+  ('John', 'Smith', 'jazz4lyfe@email.com', 'Pay at the door'),
+  ('Louis', 'Armstrong', 'kinglouie@no.com','Pay at the door'),
+  ('Troy', 'Andrews', 'hurricane_season@backatown.com', 'Credit Card');
+
+-- Venues
+INSERT INTO artists (venueName, capacity) VALUES
+  ('Preservation Hall', 200),
+  ('House of Blues', 1000),
+  ('Blue Nile', 763);
+
+-- Artists
+INSERT INTO artists (bandName, bandGenre) VALUES
+  ('Trombone Shorty', 'Jazz/rock'),
+  ('Preservation Hall Jazz Band', 'Jazz'),
+  ('Tom Misch', 'Rock');
+
+--Concerts
+INSERT INTO concerts (artistID, venueID, startTime, concertDate, cost) VALUES 
+  (1,2,'18:00:00','2020-07-14','20.00'),
+  (2,1,'20:00:00','2020-07-04','30.00'),
+  (3,3,'19:00:00','2020-07-20','40.00');
+
+--Orders
+INSERT INTO orders (customerID) VALUES 
+  (1),
+  (2),
+  (3);
+
+--Concerts_Orders
+INSERT INTO concerts_orders (concertID, orderID, quantity) VALUES 
+  (1,1,2),
+  (2,2,3),
+  (3,3,5);

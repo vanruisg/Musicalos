@@ -13,13 +13,13 @@ SELECT venueID, venueName, capacity FROM venues;
 SELECT customerID, firstName, lastName, email, paymentMethod FROM customers;
 
 -- get all concert IDs, artist IDs, venue IDs, start times, dates, and costs to populate the Concerts page
-SELECT concertID, artistID, venueID, startTime, date, cost FROM concerts;
+SELECT concertID, artistID, venueID, startTime, concertDate, cost FROM concerts;
 
 -- get all order IDs and customer IDs to populate the Orders page
-SELECT orderID, customerID, quantity FROM orders;
+SELECT orderID, customerID FROM orders;
 
--- get all concert IDs and order IDs to populate the Concert-Orders page
-SELECT concertID, orderID FROM concerts-orders;
+-- get all concert IDs and order IDs to populate the Concert_Orders page
+SELECT concertID, orderID, quantity FROM concerts_orders;
 
 
 
@@ -33,12 +33,13 @@ INSERT INTO venues (venueName, capacity) VALUES (:venueNameInput, :capacityInput
 INSERT INTO customers (firstName, lastName, email, paymentMethod) VALUES (:firstNameInput, :lastNameInput, :emailInput, :paymentMethodInput);
 
 -- add new concert
-INSERT INTO concerts (artistID, venueID, startTime, date, cost) VALUES (:artistIDInput, :venueIDInput, :startTimeInput, :dateInput, :costInput);
+INSERT INTO concerts (artistID, venueID, startTime, concertDate, cost) VALUES (:artistIDInput, :venueIDInput, :startTimeInput, :concertDateInput, :costInput);
 
 -- add new order
-INSERT INTO orders (customerID, quantity) VALUES (:customerIDInput, :quantityInput);
+INSERT INTO orders (customerID) VALUES (:customerIDInput);
 
-
+-- add new concert_order
+INSERT INTO concerts_orders (concertID, orderID, quantity) VALUES (:concertID_selected_from_homepage, :orderIDinput, :quantityInput);
 
 -- update a customer's data based on submission of the Update Customer Form
 UPDATE customers SET firstName = :firstNameInput, lastName = :lastNameInput, email = :emailInput, paymentMethod = :paymentMethod_selected_from_dropdown_list WHERE customerID = :customerID_from_update_customer_form;
@@ -46,4 +47,5 @@ UPDATE customers SET firstName = :firstNameInput, lastName = :lastNameInput, ema
 -- delete an order
 DELETE FROM orders WHERE orderID = :orderID_selected_from_display_orders_page;
 
-
+-- disassociate an order from a concert (M-to-M relationship deletion)
+DELETE FROM concerts_orders WHERE orderID = :orderID_selected_from_display_orders_page;

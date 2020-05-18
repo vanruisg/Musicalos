@@ -55,8 +55,7 @@ CREATE TABLE orders (
 CREATE TABLE concerts_orders (
   concertID INT NOT NULL,
   orderID INT NOT NULL,
-  quantity INT NOT NULL,
-  CONSTRAINT quantity CHECK (quantity BETWEEN 1 AND 5), 
+  quantity INT NOT NULL CHECK (quantity>=1 AND quantity<=5), 
   PRIMARY KEY (concertID, orderID),
   FOREIGN KEY (concertID) REFERENCES concerts (concertID)
     ON DELETE CASCADE
@@ -74,7 +73,7 @@ INSERT INTO customers (firstName, lastName, email, paymentMethod) VALUES
   ('Troy', 'Andrews', 'hurricane_season@backatown.com', 'Credit Card');
 
 -- Venues
-INSERT INTO artists (venueName, capacity) VALUES
+INSERT INTO venues (venueName, capacity) VALUES
   ('Preservation Hall', 200),
   ('House of Blues', 1000),
   ('Blue Nile', 763);

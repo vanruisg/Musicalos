@@ -84,19 +84,19 @@ INSERT INTO artists (bandName, bandGenre) VALUES
   ('Preservation Hall Jazz Band', 'Jazz'),
   ('Tom Misch', 'Rock');
 
---Concerts
+-- Concerts
 INSERT INTO concerts (artistID, venueID, startTime, concertDate, cost) VALUES 
   (1,2,'18:00:00','2020-07-14','20.00'),
   (2,1,'20:00:00','2020-07-04','30.00'),
   (3,3,'19:00:00','2020-07-20','40.00');
 
---Orders
+-- Orders
 INSERT INTO orders (customerID) VALUES 
   (1),
   (2),
   (3);
 
---Concerts_Orders
+-- Concerts_Orders
 INSERT INTO concerts_orders (concertID, orderID, quantity) VALUES 
   (1,1,2),
   (2,2,3),

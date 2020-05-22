@@ -29,13 +29,14 @@
                 </tr>            
             </thead>
             <tbody>
+                {% for r in rows %}
                 <tr>
-                    <td>5</td>
-                    <td>Music</td>
-                    <td>Lover</td>
-                    <td>musiclover06@fakeemail.com</td>
-                    <td>Credit Card</td>
-                    <td><input type="button" name="Update" value="Update" /></td>
+                    <td>{{ r[0] }}</td>
+                    <td>{{ r[1] }}</td>
+                    <td>{{ r[2] }}</td>
+                    <td>{{ r[3] }}</td>
+                    <td>{{ r[4] }}</td>
+                    <td><input type="button" name="Update" value="Update" onclick="window.location = '/update_customer/{{r[0]}}'"/></td>
                 </tr>
             </tbody>
         </table>

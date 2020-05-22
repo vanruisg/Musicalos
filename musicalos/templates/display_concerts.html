@@ -2,6 +2,7 @@
 
 {% block styles%}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css" />
 {% endblock %}
 
 {% block title %}Concerts{% endblock %}
@@ -34,15 +35,15 @@
                 </tr>
             </thead>
             <tbody>
-                {% for r in rows %}
+                {% for concert in concerts %}
                 <tr>
-                    <td>{{ r[0] }}</td>
-                    <td>{{ r[1] }}</td>
-                    <td>{{ r[2] }}</td>
-                    <td>{{ r[3] }}</td>
-                    <td>{{ r[4] }}</td>
-                    <td>{{ r[5] }}</td>
-                    <td></td>
+                    <td>{{concert[0]}}</td>
+                    <td>{{concert[1]}}</td>
+                    <td>{{concert[2]}}</td>
+                    <td>{{concert[3]}}</td>
+                    <td>{{concert[4]}}</td>
+                    <td>{{concert[5]}}</td>
+                    <td><button>Update</button></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -62,43 +63,41 @@
                 <div class="modal-body">
                     <form id="add_concert" action="/add_concert" method="post">
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Select Artist</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Artist 1</option>
-                                <option>Artist 2</option>
-                                <option>Artist 3</option>
-                                <option>Artist 4</option>
-                                <option>Artist 5</option>
+                            <label for="artistID">Select Artist</label>
+                            <select class="form-control" id="artistID" name="artistID">
+                                {% for artist in artists %}
+                                    <option value="{{artist[0]}}">{{artist[1]}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Select Venue</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Venue 1</option>
-                                <option>Venue 2</option>
-                                <option>Venue 3</option>
-                                <option>Venue 4</option>
-                                <option>Venue 5</option>
+                            <label for="venueID">Select Venue</label>
+                            <select class="form-control" id="venueID" name="venueID">
+                                {% for venue in venues %}
+                                    <option value="{{venue[0]}}">{{venue[1]}}</option>
+                                {% endfor %}
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="startTime">Start Time</label>
+                            <input class="form-control" id="startTime" name="startTime" placeholder="00:00" />
                         </div>
                         <div class="form-group">
                             <!-- Date input -->
-                            <label class="control-label" for="date">Date</label>
-                            <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text" />
+                            <label class="control-label" for="concertDate">Date</label>
+                            <input class="form-control" id="concertDate" name="concertDate" placeholder="YYYY/MM/DD" type="text" />
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Select Cost</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>$10.00</option>
-                                <option>$20.00</option>
-                                <option>$30.00</option>
-                                <option>$40.00</option>
-                                <option>$50.00</option>
+                            <label for="cost">Select Cost</label>
+                            <select class="form-control" id="cost" name="cost">
+                                <option value="10.00">$10.00</option>
+                                <option value="20.00">$20.00</option>
+                                <option value="30.00">$30.00</option>
+                                <option value="40.00">$40.00</option>
+                                <option value="50.00">$50.00</option>
                             </select>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success">Submit</button>
-                        </div>
+                        <input type="submit" class="btn btn-success" value="Submit">
                     </form>
                 </div>
             </div>
@@ -110,10 +109,10 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
     <script>
         $(document).ready(function () {
-            var date_input = $('input[name="date"]'); //our date input has the name "date"
+            var date_input = $('input[name="concertDate"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
             var options = {
-                format: 'mm/dd/yyyy',
+                format: 'yyyy/mm/dd',
                 container: container,
                 todayHighlight: true,
                 autoclose: true,
@@ -121,4 +120,18 @@
             date_input.datepicker(options);
         })
     </script> 
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.js"></script>
+    <script>
+        $(document).ready(function () {
+            var time_input = $('input[name="startTime"]');
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            var options = {
+                template: 'dropdown',
+                container: container,
+                autoclose: true,
+            }
+            time_input.timepicker(options);
+        })
+    </script>
 {% endblock %}

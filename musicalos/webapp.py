@@ -174,10 +174,19 @@ def delete_order(id):
 @webapp.route('/display_concerts')
 def display_concerts():
     db_connection = connect_to_database()
-    query = 'SELECT concertID, artistID, venueID, startTime, concertDate, cost FROM concerts'
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('display_concerts.html', rows=result)
+    concerts_query = 'SELECT concertID, artistID, venueID, startTime, concertDate, cost FROM concerts'
+    concerts_result = execute_query(db_connection, concerts_query).fetchall()
+    print(concerts_result)
+
+    artists_query = 'SELECT artistID, bandName FROM artists'
+    artists_result = execute_query(db_connection, artists_query).fetchall()
+    print(artists_result)
+
+    venues_query = 'SELECT venueID, venueName FROM venues'
+    venues_result = execute_query(db_connection, venues_query).fetchall()
+    print(venues_result)
+    
+    return render_template('display_concerts.html', concerts=concerts_result, artists=artists_result, venues=venues_result)
 
 @webapp.route('/add_concert', methods=['POST', 'GET'])
 def add_concert():
@@ -190,10 +199,10 @@ def add_concert():
         artistID = request.form['artistID']
         venueID = request.form['venueID']
         startTime = request.form['startTime']
-        concertDate = request.form['date']
+        concertDate = request.form['concertDate']
         cost = request.form['cost']
 
-        query = 'INSERT INTO concerts (artistID, venueID, startTime, date, cost) VALUES (%s,%s,%s,%s,%s)'
+        query = 'INSERT INTO concerts (artistID, venueID, startTime, concertDate, cost) VALUES (%s,%s,%s,%s,%s)'
         data = (artistID, venueID, startTime, concertDate, cost)
         execute_query(db_connection, query, data)
         return redirect('/display_concerts')

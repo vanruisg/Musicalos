@@ -85,7 +85,7 @@ DROP TABLE IF EXISTS `artists`;
 CREATE TABLE `artists` (
   `artistID` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `bandName` VARCHAR(255) NOT NULL,
-  `bandGenre` VARCHAR(255)
+  `bandGenre` VARCHAR(255) NOT NULL
 )Engine=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -113,10 +113,10 @@ DROP TABLE IF EXISTS `concerts`;
 CREATE TABLE `concerts` (
   `concertID` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `artistID` INT NOT NULL,
-  `venueID` INT NOT NULL,
+  `venueID` INT,
   `startTime` TIME(0) NOT NULL,
   `concertDate` DATE NOT NULL,
-  `cost` DECIMAL(13, 2) NOT NULL,
+  `cost` DECIMAL(4, 2) NOT NULL,
   FOREIGN KEY (`artistID`) REFERENCES `artists` (`artistID`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,

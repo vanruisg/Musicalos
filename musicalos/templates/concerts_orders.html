@@ -3,51 +3,32 @@
 {% block title %}Concert Orders{% endblock %}
 
 {% block content %}
+<div class="container">
+        <div class="row">
+            <div class="container">
+                <h3>Concert Orders</h3>
+            </div>
+        </div>
+    </div>
+    <br />
     <div class="container">
-        <h3><u>Concert Orders</u></h3>
-        <hr style="border-top:2px solid" />
-        <div class="container">
-            <h4>Concert ID: 3496</h4>
-            <table class="table" style="width:30%">
-                <thead>
-                    <tr>
-                        <th scope="col">Order ID</th>
-						<th scope="col">Quantity</th>
-                    </tr>
-                </thead>    
-                <tbody>
-                    <tr>
-                        <td scope="row">1</td>
-                        <td scope="row">1</td>
-                    </tr>
-                    <tr>
-                        <td scope="row">2</td>
-                        <td scope="row">3</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <hr style="border-top:2px solid" />
-        <div class="container">
-            <h4>Concert ID: 3497</h4>
-            <table class="table" style="width:30%">
-                <thead>
-                    <tr>
-                        <th scope="col">Order ID</th>
-						<th scope="col">Quantity</th>
-                    </tr>
-                </thead>    
-                <tbody>
-                    <tr>
-                        <td scope="row">1</td>
-                        <td scope="row">1</td>
-                    </tr>
-                    <tr>
-                        <td scope="row">2</td>
-                        <td scope="row">3</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="table table-striped table-bordered" style="width:80%">
+            <thead style="background-color:gold">
+                <tr>
+                    <th scope="col">Concert ID</th>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in rows %}  
+                <tr>
+                    <td scope="row">{{ r[0] }}</td>
+                    <td scope="row">{{ r[1] }}</td>
+                    <td scope="row">{{ r[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

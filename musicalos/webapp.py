@@ -6,10 +6,21 @@ from db_connector.db_connector import connect_to_database, execute_query
 webapp = Flask(__name__)
 
 #loading page
+# @webapp.route('/', methods=['GET','POST'])
+# def homepage():
+#     if request.method == 'POST':
+#         db_connection = connect_to_database()
+#         showDate = request.form['date']
+#         query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.concertID WHERE concerts.concertDate = showDate'
+#         result = execute_query(db_connection, query).fetchall()
+#         print(result)
+#         return render_template('homepage.html', rows=result)
+#     else:
+#         return render_template('homepage.html')
+
 @webapp.route('/')
 def homepage():
     return render_template('homepage.html')
-
 
 ########################################
 # ARTISTS
@@ -158,13 +169,13 @@ def add_order():
         execute_query(db_connection, query, data)
         return redirect('/display_orders')
 
-@webapp.route('/delete_order/<int:id>')
-def delete_order(id):
+@webapp.route('/delete_order/<int:deletion_id>')
+def delete_order(deletion_id):
     db_connection = connect_to_database()
     query = 'DELETE FROM orders WHERE orderID = %s'
-    data = (id,)
+    data = (deletion_id,)
     result = execute_query(db_connection, query, data)
-    print('Order #' + id + ' deleted')
+    print('Order #' + str(deletion_id) + ' deleted')
     return redirect('/display_orders')
     
 
@@ -207,6 +218,33 @@ def add_concert():
         execute_query(db_connection, query, data)
         return redirect('/display_concerts')
 
+@webapp.route('/update_concert/<int:concert_id>', methods=['POST','GET'])
+def update_concert(concert_id):
+    db_connection = connect_to_database()
+
+    if request.method == 'GET':
+        concert_query = 'SELECT concertID, artistID, venueID, startTime, concertDate, cost FROM concerts WHERE concertID = %s' % (concert_id)
+        concert_result = execute_query(db_connection, concert_query).fetchone()
+
+        if concert_result == None:
+            return 'ERROR: Concert not found'
+
+        return render_template('update_concert.html', concert = concert_result)
+    
+    elif request.method == 'POST':
+        concertID = request.form['concertID']
+        #artistID = request.form['artistID']
+        #venueID = request.form['venueID']
+        startTime = request.form['startTime']
+        concertDate = request.form['concertDate']
+        cost = request.form['cost']
+
+        query = 'UPDATE concerts SET startTime = %s, concertDate = %s, cost = %s WHERE concertID = %s'
+        data = (startTime, concertDate, cost, concertID)
+        result = execute_query(db_connection, query, data)
+        print(str(result.rowcount) + ' row(s) updated')
+
+        return redirect('/display_concerts')
 
 ########################################
 # CONCERTS-ORDERS
@@ -218,4 +256,3 @@ def concerts_orders():
     result = execute_query(db_connection, query).fetchall()
     print(result)
     return render_template('concerts_orders.html', rows=result)
-

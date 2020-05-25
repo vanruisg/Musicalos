@@ -116,7 +116,7 @@ CREATE TABLE `concerts` (
   `venueID` INT,
   `startTime` TIME(0) NOT NULL,
   `concertDate` DATE NOT NULL,
-  `cost` DECIMAL(4, 2) NOT NULL,
+  `cost` DECIMAL(4, 2) NOT NULL CHECK (cost>=10.00 AND cost<=50.00),
   FOREIGN KEY (`artistID`) REFERENCES `artists` (`artistID`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,

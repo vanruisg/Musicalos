@@ -5,22 +5,23 @@ from db_connector.db_connector import connect_to_database, execute_query
 #create the web application
 webapp = Flask(__name__)
 
-#loading page
-# @webapp.route('/', methods=['GET','POST'])
-# def homepage():
-#     if request.method == 'POST':
-#         db_connection = connect_to_database()
-#         showDate = request.form['date']
-#         query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.concertID WHERE concerts.concertDate = showDate'
-#         result = execute_query(db_connection, query).fetchall()
-#         print(result)
-#         return render_template('homepage.html', rows=result)
-#     else:
-#         return render_template('homepage.html')
-
 @webapp.route('/')
 def homepage():
-    return render_template('homepage.html')
+    db_connection = connect_to_database()   
+    # showDate = request.form['date']
+    query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID #WHERE concerts.concertDate = showDate'
+    result = execute_query(db_connection, query).fetchall()
+    print(result)
+    return render_template('homepage.html', rows=result)
+
+# @webapp.route('/results', methods=['POST'])
+# def results():
+#     db_connection = connect_to_database()   
+#     showDate = request.form['date']
+#     query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID WHERE concerts.concertDate = showDate'
+#     result = execute_query(db_connection, query).fetchall()
+#     print(result)
+#     return render_template('homepage.html', rows=result)
 
 ########################################
 # ARTISTS
@@ -235,12 +236,12 @@ def update_concert(concert_id):
         concertID = request.form['concertID']
         #artistID = request.form['artistID']
         #venueID = request.form['venueID']
-        startTime = request.form['startTime']
-        concertDate = request.form['concertDate']
+        # startTime = request.form['startTime']
+        # concertDate = request.form['concertDate']
         cost = request.form['cost']
 
-        query = 'UPDATE concerts SET startTime = %s, concertDate = %s, cost = %s WHERE concertID = %s'
-        data = (startTime, concertDate, cost, concertID)
+        query = 'UPDATE concerts SET cost = %s WHERE concertID = %s'
+        data = (cost, concertID)
         result = execute_query(db_connection, query, data)
         print(str(result.rowcount) + ' row(s) updated')
 

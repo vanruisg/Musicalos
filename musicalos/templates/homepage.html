@@ -17,38 +17,35 @@
                 <br />
                 <h3>Select a Date</h3>
                 <!-- Form code begins -->
-                <form id="selectDate"> 
+                <form id="" action="" method="post">
                     <div class="form-group" style="max-width:20%">
                         <!-- Date input -->
-                        <input class="form-control" id="dateInput" name="date" placeholder="YYYY/MM/DD" type="text" />
+                        <input class="form-control" id="date" name="date" placeholder="YYYY/MM/DD" type="text" />
                     </div>
-                </form>
-                    <table class="table" style="width:70%">
-                        <thead>
-                            <tr>
-                                <th scope="col">Concert Name</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Cost</th>
-                                <th scope="col">Select</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in rows %}
-                            <tr>
-                                <th scope="row">{{row[0]}}</th>
-                                <td>{{row[1]}}</td>
-                                <td>{{row[2]}}</td>
-                                <td><input type="checkbox" class="custom-control-input" id="defaultUnchecked"><td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
                     <div class="form-group">
                         <!-- Submit button -->
-                        <input id="buy_tickets" type="button" class="btn btn-success" style="margin-top:15px; margin-bottom:10px;" value="Buy Tickets" onclick="window.location ='/add_tickets'"/>
+                        <input type="submit" class="btn btn-success" />
                     </div>
+                </form>
                 <!-- Form code ends -->
-                <div id="errorAlert" class="alert alert-warning" role="alert" style="display:none;">There are no concerts happening on the selected date. Select a new date and try again.</div>
+                <table class="table" style="width:70%">
+                    <thead>
+                        <tr>
+                            <th scope="col">Concert Name</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for concert in concerts %}
+                        <tr>
+                            <td>{{concert[0]}}</td>
+                            <td>{{concert[1]}}</td>
+                            <td>{{concert[2]}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -56,43 +53,12 @@
 
 {% block scripts %}
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-    <!--<script>
-        $(document).ready(function() {
-
-        $('form').on('submit', function(event) {
-
-                $.ajax({
-                    data : {
-                        concertDate : $('#dateInput').val()
-                    },
-                    type : 'POST',
-                    url : '/process'
-                    })
-                    .done(function(data) {
-
-                        if (data.error) {
-                            $('#errorAlert').text(data.error).show();
-                            $('#concert_results').hide();
-                            $('#buy_tickets').hide();
-                        }
-                        else {
-                            $('#concert_results').html(response);
-                            $('#buy_tickets').show();
-                        }
-
-                });      
-
-                event.preventDefault();
-
-            });
-        });
-    </script> -->
     <script>
         $(document).ready(function () {
-            var date_input = $('input[name="date"]'); 
+            var date_input = $('input[name="date"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
             var options = {
-                format: 'yyyy/mm/dd',
+                format: 'mm/dd/yyyy',
                 container: container,
                 todayHighlight: true,
                 autoclose: true,

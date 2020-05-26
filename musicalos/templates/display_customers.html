@@ -4,12 +4,19 @@
 
 {% block content %}
     <div class="container">
-        <div class='btn-toolbar pull-right'>
-            <div class='btn-group'>            
-                <input type="button" class="btn btn-success" style="margin-top:15px; margin-bottom:10px" value="Add new customer" onclick="window.location = '/add_customer'" />
-            </div>         
-        </div>       
-        <h3>Customers</h3>
+        <div class="row">
+            <div class="container">
+                <div class="col-sm-8">
+                    <h3>Customers</h3>
+                </div>
+                <div class="col-sm-4">
+                    <input type="button" class="btn btn-success" style="margin-top:15px; margin-bottom:10px" value="Add new customer" onclick="window.location = '/add_customer'" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container">
         <table class="table table-striped table-bordered" style="width:75%">
             <thead style="background-color:gold">
                 <tr>

@@ -6,7 +6,12 @@
     <div class="container">
         <div class="row">
             <div class="container">
+                <div class="col-sm-8">
                     <h3>Orders</h3>
+                </div>
+                <div class="col-sm-4">
+                    <input type="button" class="btn btn-success" data-toggle="modal" data-target="#addOrderModal" style="margin-top:15px; margin-bottom:10px" value="Add new order" />
+                </div>
             </div>
         </div>
     </div>
@@ -21,14 +26,40 @@
                 </tr>   
             </thead>
             <tbody>
-                {% for r in rows %}
+                {% for order in orders %}
                 <tr>
-                    <td>{{ r[0] }}</td>
-                    <td>{{ r[1] }}</td>
-                    <td><input type="button" class="btn btn-success" name="Delete" value="Delete" onclick="window.location = '/delete_order/{{r[0]}}'"/></td>
+                    <td>{{ order[0] }}</td>
+                    <td>{{ order[1] }}</td>
+                    <td><input type="button" class="btn btn-success" name="Delete" value="Delete" onclick="window.location = '/delete_order/{{order[0]}}'"/></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+    <!--Modal-->
+    <div class="modal fade" id="addOrderModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Add New Order</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="add_order" action="/add_order" method="post">
+                        <div class="form-group">
+                            <label for="customerID">Select Customer</label>
+                            <select class="form-control" id="customerID" name="customerID">
+                                {% for customer in customers %}
+                                    <option value="{{customer[0]}}">{{customer[1]}} {{customer[2]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <input type="submit" class="btn btn-success" value="Submit" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

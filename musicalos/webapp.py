@@ -15,8 +15,9 @@ def homepage():
 
    elif request.method == 'POST':
        showDate = request.form.get('date')
-       query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID WHERE concerts.concertDate = %s' % (showDate)
-       result = execute_query(db_connection, query).fetchall()
+       query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID WHERE concerts.concertDate = %s'
+       data = (showDate,)
+       result = execute_query(db_connection, query, data).fetchall()
        print(result)
        
        return render_template('homepage.html', rows=result)

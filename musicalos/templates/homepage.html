@@ -10,26 +10,28 @@
     <div class="container">
         <div class="jumbotron img-background" style="background-image:url(https://www.udiscovermusic.com/wp-content/uploads/2019/04/best-jazz-songs.jpg); background-size:cover">
             <h2 class="display-4" id="band" style="color:gold; font-weight:bold; text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black">Buy Tickets to Concerts in New Orleans</h2>
-            <h3 class="lead" style="color:gold; font-weight:bold; text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black">Simply pick a date, find out what concerts are happening in the city, and click to place an order</h3>
+            <h3 class="lead" style="color:gold; font-weight:bold; text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black">Simply pick a date to find out what concerts are happening in the city</h3>
         </div>
         <div class="container">
             <div class="row">
                 <br />
                 <h3>Select a Date</h3>
                 <!-- Form code begins -->
-                <form id="selectDate"> 
-                    <div class="form-group" style="max-width:20%">
-                        <!-- Date input -->
-                        <input class="form-control" id="dateInput" name="date" placeholder="YYYY/MM/DD" type="text" />
-                    </div>
+                <form id="selectDate" method="post"> 
+                    <!-- <div class="form-group" style="max-width:20%">
+                        <input class="form-control" id="dateInput" name="date" placeholder="YYYY/MM/DD" type="text"></div>
+                    </div> -->
+                    {% from "_formhelpers.html" import render_field %}
+                        {{ render_field(form.search) }}
+                    <input type="submit" class="btn btn-success" style="margin-top:15px; margin-bottom:10px;" value="Search">
                 </form>
-                    <table class="table" style="width:70%">
+                
+                    <!-- <table class="table" style="width:70%">
                         <thead>
                             <tr>
                                 <th scope="col">Concert Name</th>
                                 <th scope="col">Time</th>
                                 <th scope="col">Cost</th>
-                                <th scope="col">Select</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,17 +40,10 @@
                                 <th scope="row">{{row[0]}}</th>
                                 <td>{{row[1]}}</td>
                                 <td>{{row[2]}}</td>
-                                <td><input type="checkbox" class="custom-control-input" id="defaultUnchecked"><td>
                             </tr>
                             {% endfor %}
                         </tbody>
-                    </table>
-                    <div class="form-group">
-                        <!-- Submit button -->
-                        <input id="buy_tickets" type="button" class="btn btn-success" style="margin-top:15px; margin-bottom:10px;" value="Buy Tickets" onclick="window.location ='/add_tickets'"/>
-                    </div>
-                <!-- Form code ends -->
-                <div id="errorAlert" class="alert alert-warning" role="alert" style="display:none;">There are no concerts happening on the selected date. Select a new date and try again.</div>
+                    </table> -->
             </div>
         </div>
     </div>

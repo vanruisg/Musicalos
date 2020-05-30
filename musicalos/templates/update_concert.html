@@ -3,34 +3,42 @@
 {% block title %}Update Concert{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="container">
-                <div class="col-sm-6">
-                    <h3>Update Concert Info:</h3>
-                    <form id="add_concert" action="/update_concert/{{concert[0]}}" method="post">
-                        <input type="hidden" name="concertID" value="{{ concert[0] }}" />
-                        <input type="hidden" name="artistID" value="{{ concert[1] }}" />
-                        <input type="hidden" name="venueID" value="{{ concert[2] }}" />
-                        <input type="hidden" name="startTime" value="{{ concert[3] }}" />
-                        <input type="hidden" name="concertDate" value="{{ concert[4] }}" />
-                        <div class="form-group">
-                            <label for="cost">Cost</label>
-                            <select class="form-control" id="cost" name="cost">
-                                <option value="{{ concert[5] }}" selected disabled hidden>{{ concert[5] }}</option>
-                                <option value="10.00">$10.00</option>
-                                <option value="20.00">$20.00</option>
-                                <option value="30.00">$30.00</option>
-                                <option value="40.00">$40.00</option>
-                                <option value="50.00">$50.00</option>
-                            </select>
-                        </div>
-                        <div>
-                            <input type="submit" class="btn btn-success" value="Submit" />
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>    
+     <div class="container">
+         <div class="row">
+             <div class="container">
+                 <div class="col-sm-6">
+                     <h3>Update Concert Info:</h3>
+                     <form id="add_concert" action="/update_concert/{{concert[0]}}" method="post">
+                         <input type="hidden" name="concertID" value="{{ concert[0] }}" />
+                         <input type="hidden" name="artistID" value="{{ concert[1] }}" />
+                         <!-- <input type="hidden" name="venueID" value="{{ concert[2] }}" /> -->
+                         <div class="form-group">
+                             <label for="venueID">Venue ID</label>
+                             <select class="form-control" id="venueID" name="venueID">
+                                 <option value="{{ concert[2] }}" selected disabled hidden>{{ concert[2] }}</option>
+                                 <option value="NULL">None</option>
+                             </select>
+                         </div>
+                         <input type="hidden" name="startTime" value="{{ concert[3] }}" />
+                         <input type="hidden" name="concertDate" value="{{ concert[4] }}" />
+                         <input type="hidden" name="cost" value="{{ concert[5] }}" />
+                         <!-- <div class="form-group">
+                             <label for="cost">Cost</label>
+                             <select class="form-control" id="cost" name="cost">
+                                 <option value="{{ concert[5] }}" selected disabled hidden>{{ concert[5] }}</option>
+                                 <option value="10.00">$10.00</option>
+                                 <option value="20.00">$20.00</option>
+                                 <option value="30.00">$30.00</option>
+                                 <option value="40.00">$40.00</option>
+                                 <option value="50.00">$50.00</option>
+                             </select>
+                         </div> -->
+                         <div>
+                             <input type="submit" class="btn btn-success" value="Submit" />
+                         </div>
+                     </form>
+                 </div>
+             </div>
+         </div>
+     </div> 
 {% endblock %}

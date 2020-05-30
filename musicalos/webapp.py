@@ -1,27 +1,32 @@
 from flask import Flask, render_template
 from flask import request, redirect
+from forms import ConcertSearchForm
 from db_connector.db_connector import connect_to_database, execute_query
+
 
 #create the web application
 webapp = Flask(__name__)
 
-@webapp.route('/')
-def homepage():
-    db_connection = connect_to_database()   
-    # showDate = request.form['date']
-    query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID #WHERE concerts.concertDate = showDate'
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('homepage.html', rows=result)
+@webapp.route('/', methods=['GET', 'POST'])
+def index():
+    search = ConcertSearchForm(request.form)
+    if request.method == 'POST':
+        return search_results(search)
+    return render_template('homepage.html', form=search)
 
-# @webapp.route('/results', methods=['POST'])
-# def results():
-#     db_connection = connect_to_database()   
-#     showDate = request.form['date']
-#     query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID WHERE concerts.concertDate = showDate'
-#     result = execute_query(db_connection, query).fetchall()
-#     print(result)
-#     return render_template('homepage.html', rows=result)
+@webapp.route('/results')
+def search_results(search):
+    results = []
+    search_string = search.data['search']
+
+    if search_string:
+        db_connection = connect_to_database() 
+        query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM artists INNER JOIN concerts ON concerts.artistID = artists.artistID WHERE concerts.concertDate = %s' %(search_string)
+        results = execute_query(db_connection, query).fetchall() 
+        return render_template('results.html', rows=results)
+    if not results:
+        print('No results found!')
+        return redirect('/')    
 
 ########################################
 # ARTISTS
@@ -162,13 +167,19 @@ def add_order():
         return redirect('/display_orders')
 
     elif request.method == 'POST':
-        orderID = request.form['orderID']
+        concertID = request.form['concertID']
         customerID = request.form['customerID']
+        orderID = request.form['orderID']
+        quantity = request.form['quantity']
 
-        query = 'INSERT INTO orders (orderID, customerID) VALUES (%s,%s)'
-        data = (orderID, customerID)
-        execute_query(db_connection, query, data)
+        query_one = 'INSERT INTO orders (customerID) VALUES (%s)'
+        order_data = (customerID)
+        execute_query(db_connection, query_one, order_data)
+        query_two = 'INSERT INTO concerts_orders (concertID, orderID, quantity) VALUES (%s,LAST_INSERT_ID(),%s)'
+        concert_data = (concertID, orderID, quantity)
+        execute_query(db_connection, query_two, concert_data)
         return redirect('/display_orders')
+
 
 @webapp.route('/delete_order/<int:deletion_id>')
 def delete_order(deletion_id):
@@ -231,17 +242,15 @@ def update_concert(concert_id):
             return 'ERROR: Concert not found'
 
         return render_template('update_concert.html', concert = concert_result)
-    
+
     elif request.method == 'POST':
         concertID = request.form['concertID']
-        #artistID = request.form['artistID']
-        #venueID = request.form['venueID']
-        # startTime = request.form['startTime']
-        # concertDate = request.form['concertDate']
-        cost = request.form['cost']
+        venueID = request.form['venueID']
+        if venueID == "NULL":
+            venueID = None
 
-        query = 'UPDATE concerts SET cost = %s WHERE concertID = %s'
-        data = (cost, concertID)
+        query = 'UPDATE concerts SET venueID = %s WHERE concertID = %s'
+        data = (venueID,concertID)
         result = execute_query(db_connection, query, data)
         print(str(result.rowcount) + ' row(s) updated')
 

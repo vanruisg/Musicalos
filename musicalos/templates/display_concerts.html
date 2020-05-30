@@ -36,7 +36,8 @@
                     <td>{{concert[3]}}</td>
                     <td>{{concert[4]}}</td>
                     <td>{{concert[5]}}</td>
-                    <td><a href="/update_concert/{{concert[0]}}">Update</td>
+                    <!-- <td><a href="/update_concert/{{concert[0]}}">Update</td> -->
+                    <td><input type="button" class="btn btn-success" name="Update" value="Update" onclick="window.location = '/update_concert/{{concert[0]}}'"/></td>   
                 </tr>
                 {% endfor %}
             </tbody>
@@ -57,7 +58,7 @@
                     <form id="add_concert" action="/add_concert" method="post">
                         <div class="form-group">
                             <label for="artistID">Select Artist</label>
-                            <select class="form-control" id="artistID" name="artistID">
+                            <select class="form-control" id="artistID" name="artistID" required>
                                 {% for artist in artists %}
                                     <option value="{{artist[0]}}">{{artist[1]}}</option>
                                 {% endfor %}
@@ -65,7 +66,7 @@
                         </div>
                         <div class="form-group">
                             <label for="venueID">Select Venue</label>
-                            <select class="form-control" id="venueID" name="venueID">
+                            <select class="form-control" id="venueID" name="venueID" required>
                                 {% for venue in venues %}
                                     <option value="{{venue[0]}}">{{venue[1]}}</option>
                                 {% endfor %}
@@ -73,16 +74,16 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="startTime">Start Time</label>
-                            <input class="form-control" id="startTime" name="startTime" placeholder="00:00" />
+                            <input class="form-control" id="startTime" name="startTime" placeholder="00:00" required />
                         </div>
                         <div class="form-group">
                             <!-- Date input -->
                             <label class="control-label" for="concertDate">Date</label>
-                            <input class="form-control" id="concertDate" name="concertDate" placeholder="YYYY/MM/DD" type="text" />
+                            <input class="form-control" id="concertDate" name="concertDate" placeholder="YYYY/MM/DD" type="text" required />
                         </div>
                         <div class="form-group">
                             <label for="cost">Select Cost</label>
-                            <select class="form-control" id="cost" name="cost">
+                            <select class="form-control" id="cost" name="cost" required>
                                 <option value="10.00">$10.00</option>
                                 <option value="20.00">$20.00</option>
                                 <option value="30.00">$30.00</option>

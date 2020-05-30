@@ -41,7 +41,7 @@
                     <form id="add_order" action="/add_order" method="post">
                         <div class="form-group">
                             <label for="concertID">Select Concert ID</label>
-                            <select class="form-control" id="concertID" name="concertID">
+                            <select class="form-control" id="concertID" name="concertID" required>
                                 {% for concert in concerts %}
                                     <option value="{{concert[0]}}">{{concert[0]}}</option>
                                 {% endfor %}
@@ -49,7 +49,7 @@
                         </div>
                         <div class="form-group">
                             <label for="customerID">Select Customer</label>
-                            <select class="form-control" id="customerID" name="customerID">
+                            <select class="form-control" id="customerID" name="customerID" required>
                                 {% for customer in customers %}
                                     <option value="{{customer[0]}}">{{customer[1]}} {{customer[2]}}</option>
                                 {% endfor %}
@@ -57,7 +57,7 @@
                         </div>
                         <div class="form-group">
                             <label for="quantity">Select Quantity</label>
-                            <select class="form-control" id="quantity" name="quantity">
+                            <select class="form-control" id="quantity" name="quantity" required>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>

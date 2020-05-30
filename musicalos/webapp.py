@@ -1,32 +1,25 @@
 from flask import Flask, render_template
 from flask import request, redirect
-from forms import ConcertSearchForm
 from db_connector.db_connector import connect_to_database, execute_query
 
 
 #create the web application
 webapp = Flask(__name__)
 
-@webapp.route('/', methods=['GET', 'POST'])
-def index():
-    search = ConcertSearchForm(request.form)
-    if request.method == 'POST':
-        return search_results(search)
-    return render_template('homepage.html', form=search)
+@webapp.route('/', methods=['GET','POST'])
+def homepage():
+   db_connection = connect_to_database()
 
-@webapp.route('/results')
-def search_results(search):
-    results = []
-    search_string = search.data['search']
+   if request.method == 'GET':
+       return render_template('homepage.html')
 
-    if search_string:
-        db_connection = connect_to_database() 
-        query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM artists INNER JOIN concerts ON concerts.artistID = artists.artistID WHERE concerts.concertDate = %s' %(search_string)
-        results = execute_query(db_connection, query).fetchall() 
-        return render_template('results.html', rows=results)
-    if not results:
-        print('No results found!')
-        return redirect('/')    
+   elif request.method == 'POST':
+       showDate = request.form.get('date')
+       query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID WHERE concerts.concertDate = %s' % (showDate)
+       result = execute_query(db_connection, query).fetchall()
+       print(result)
+       
+       return render_template('homepage.html', rows=result)
 
 ########################################
 # ARTISTS

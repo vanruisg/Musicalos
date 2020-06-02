@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash 
 from flask import request, redirect
 from db_connector.db_connector import connect_to_database, execute_query
 
@@ -11,7 +11,7 @@ def homepage():
    db_connection = connect_to_database()
 
    if request.method == 'GET':
-       return render_template('homepage.html')
+       return render_template('homepage.html')  
 
    elif request.method == 'POST':
        showDate = request.form.get('date')
@@ -19,8 +19,7 @@ def homepage():
        data = (showDate,)
        result = execute_query(db_connection, query, data).fetchall()
        print(result)
-       
-       return render_template('homepage.html', rows=result)
+       return render_template('homepage.html', rows=result)   
 
 ########################################
 # ARTISTS
@@ -144,6 +143,7 @@ def update_customer(id):
 ########################################
 # ORDERS
 ########################################
+
 @webapp.route('/display_orders')
 def display_orders():
     db_connection = connect_to_database()
@@ -158,7 +158,19 @@ def add_order():
     db_connection = connect_to_database()
 
     if request.method == 'GET':
-        return redirect('/display_orders')
+        db_connection = connect_to_database()
+        orders_query = 'SELECT orderID, customerID FROM orders ORDER BY orderID'
+        orders_result = execute_query(db_connection, orders_query).fetchall()
+        print(orders_result)
+
+        concerts_query = 'SELECT concertID FROM concerts'
+        concerts_result = execute_query(db_connection, concerts_query).fetchall()
+        print(concerts_result)
+        
+        customers_query = 'SELECT customerID, firstName, lastName FROM customers'
+        customers_result = execute_query(db_connection, customers_query).fetchall()
+        print(customers_result)
+        return render_template('/add_order.html', rows=orders_result, concerts=concerts_result, customers=customers_result)
 
     elif request.method == 'POST':
         concertID = request.form['concertID']
@@ -167,13 +179,13 @@ def add_order():
         quantity = request.form['quantity']
 
         query_one = 'INSERT INTO orders (customerID) VALUES (%s)'
-        order_data = (customerID)
+        order_data = (customerID,)
         execute_query(db_connection, query_one, order_data)
-        query_two = 'INSERT INTO concerts_orders (concertID, orderID, quantity) VALUES (%s,LAST_INSERT_ID(),%s)'
+        query_two = 'INSERT INTO concerts_orders (concertID, orderID, quantity) VALUES (%s,(SELECT orderID FROM orders WHERE orders.customerID = %s),%s)'
         concert_data = (concertID, orderID, quantity)
         execute_query(db_connection, query_two, concert_data)
-        return redirect('/display_orders')
-
+        return redirect('/display_orders', )
+ 
 
 @webapp.route('/delete_order/<int:deletion_id>')
 def delete_order(deletion_id):

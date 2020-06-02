@@ -6,7 +6,8 @@
     <div class="container">
         <div class='btn-toolbar pull-right'>
             <div class='btn-group'>
-                <input type="button" class="btn btn-success" data-toggle="modal" data-target="#addOrderModal" style="margin-top:15px; margin-bottom:10px" value="Add new order" />
+                <!-- <input type="button" class="btn btn-success" data-toggle="modal" data-target="#addOrderModal" style="margin-top:15px; margin-bottom:10px" value="Add new order" /> -->
+                <input type="button" class="btn btn-success" style="margin-top:15px; margin-bottom:10px" value="Add new order" onclick="window.location = '/add_order'" />
             </div>         
         </div>    
     <h3>Orders</h3>
@@ -23,6 +24,7 @@
                 <tr>
                     <td>{{ r[0] }}</td>
                     <td>{{ r[1] }}</td>
+                    <!-- <td><input type="button" class="btn btn-success" name="Delete" value="Delete" onclick="window.location = '/delete_order/{{r[0]}}'"/></td> -->
                     <td><input type="button" class="btn btn-success" name="Delete" value="Delete" onclick="window.location = '/delete_order/{{r[0]}}'"/></td>
                 </tr>
                 {% endfor %}
@@ -30,7 +32,7 @@
         </table>
     </div>
     <!--Modal-->
-    <div class="modal fade" id="addOrderModal" role="dialog">
+    <!-- <div class="modal fade" id="addOrderModal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -72,5 +74,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 {% endblock %}

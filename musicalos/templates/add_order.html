@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}Add Order{% endblock %}
+
+{% block content %}
+   <div class="container">
+         <div class="row">
+             <div class="container">
+                 <div class="col-sm-6">
+                        <h3>Add Order</h3>
+                        <form id="add_order" action="/add_order" method="post">
+                        <div class="form-group">
+                            <label for="concertID">Select Concert ID</label>
+                            <select class="form-control" id="concertID" name="concertID" required>
+                                {% for concert in concerts %}
+                                    <option value="{{concert[0]}}">{{concert[0]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% for row in rows %}
+                        <input type="hidden" name="orderID" value="{{row[0]}}" />
+                        {% endfor %}
+                        <div class="form-group">
+                            <label for="customerID">Select Customer</label>
+                            <select class="form-control" id="customerID" name="customerID" required>
+                                {% for customer in customers %}
+                                    <option value="{{customer[0]}}">{{customer[1]}} {{customer[2]}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Select Quantity</label>
+                            <select class="form-control" id="quantity" name="quantity" required>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="submit" class="btn btn-success" value="Submit" />
+                        </div>
+                    </form>
+                </div>
+             </div>
+         </div>
+     </div> 
+{% endblock %}

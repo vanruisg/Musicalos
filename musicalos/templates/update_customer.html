@@ -4,10 +4,35 @@
 
 {% block content %}
     <div class="container">
-        <h3>Update Customer Info:</h3>
+        <div class="col-sm-12">
+        <h3>Update Customer Info</h3>
         <form id="add_customer" action="/update_customer/{{customer[0]}}" method="post">
             <input type="hidden" name="customerID" value="{{ customer[0] }}" />
-            First name: <input type="text" name="firstName" value="{{ customer[1] }}" />
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" name="firstName" value="{{ customer[1] }}" required />
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" name="lastName" value="{{ customer[2] }}" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" name="email" value="{{ customer[3] }}" required />
+            </div>
+            <div class="form-group">
+                 <label for="paymentMethod">Payment Method</label>
+                 <select class="form-control" id="paymentMethod" name="paymentMethod">
+                    {% if paymentMethod == "creditCard" %}
+                    <option selected value="Credit Card">Credit Card</option>
+                    <option value="Pay at the door">Pay at the door</option>
+                    {% else %}
+                    <option value="Credit Card">Credit Card</option>
+                    <option selected value="Pay at the door">Pay at the door</option>
+                    {% endif %}
+                 </select>
+             </div>
+            <!-- First name: <input type="text" name="firstName" value="{{ customer[1] }}" />
             <br />
             Last name: <input type="text" name="lastName" value="{{ customer[2] }}" />
             <br />
@@ -23,8 +48,9 @@
                 <option selected value="Pay at the door">Pay at the door</option>
                 {% endif %}
             </select>
-            <br />
+            <br /> -->
             <input type="submit" value="Submit" />
+            </div>  
         </form>
         <br />
     </div>    

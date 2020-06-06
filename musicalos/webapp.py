@@ -147,7 +147,7 @@ def update_customer(id):
 @webapp.route('/display_orders')
 def display_orders():
     db_connection = connect_to_database()
-    query = 'SELECT orderID, customerID FROM orders'
+    query = 'SELECT orderID, customerID FROM orders ORDER BY orderID ASC'
     result = execute_query(db_connection, query).fetchall()
     print(result)
 
@@ -158,10 +158,10 @@ def add_order():
     db_connection = connect_to_database()
 
     if request.method == 'GET':
-        db_connection = connect_to_database()
-        orders_query = 'SELECT orderID, customerID FROM orders ORDER BY orderID'
-        orders_result = execute_query(db_connection, orders_query).fetchall()
-        print(orders_result)
+        # db_connection = connect_to_database()
+        # orders_query = 'SELECT orderID, customerID FROM orders ORDER BY orderID'
+        # orders_result = execute_query(db_connection, orders_query).fetchall()
+        # print(orders_result)
 
         concerts_query = 'SELECT concertID FROM concerts'
         concerts_result = execute_query(db_connection, concerts_query).fetchall()
@@ -170,19 +170,20 @@ def add_order():
         customers_query = 'SELECT customerID, firstName, lastName FROM customers'
         customers_result = execute_query(db_connection, customers_query).fetchall()
         print(customers_result)
-        return render_template('/add_order.html', rows=orders_result, concerts=concerts_result, customers=customers_result)
+        #return render_template('/add_order.html', rows=orders_result, concerts=concerts_result, customers=customers_result)
+        return render_template('/add_order.html', concerts=concerts_result, customers=customers_result)
 
     elif request.method == 'POST':
         concertID = request.form['concertID']
         customerID = request.form['customerID']
-        orderID = request.form['orderID']
+        #orderID = request.form['orderID']
         quantity = request.form['quantity']
 
         query_one = 'INSERT INTO orders (customerID) VALUES (%s)'
         order_data = (customerID,)
         execute_query(db_connection, query_one, order_data)
-        query_two = 'INSERT INTO concerts_orders (concertID, orderID, quantity) VALUES (%s,(SELECT orderID FROM orders WHERE orders.customerID = %s),%s)'
-        concert_data = (concertID, orderID, quantity)
+        query_two = 'INSERT INTO concerts_orders (concertID, orderID, quantity) VALUES (%s,(SELECT max(orderID) FROM orders),%s)' 
+        concert_data = (concertID, quantity)
         execute_query(db_connection, query_two, concert_data)
         return redirect('/display_orders', )
  

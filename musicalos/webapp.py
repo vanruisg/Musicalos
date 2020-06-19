@@ -1,30 +1,32 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash 
 from flask import request, redirect
 from db_connector.db_connector import connect_to_database, execute_query
+
 
 #create the web application
 webapp = Flask(__name__)
 
-@webapp.route('/')
+########################################
+# HOME PAGE, SEARCH/FILTER CONCERTS
+########################################
+@webapp.route('/', methods=['GET','POST'])
 def homepage():
-    db_connection = connect_to_database()   
-    # showDate = request.form['date']
-    query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID #WHERE concerts.concertDate = showDate'
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('homepage.html', rows=result)
+   db_connection = connect_to_database()
 
-# @webapp.route('/results', methods=['POST'])
-# def results():
-#     db_connection = connect_to_database()   
-#     showDate = request.form['date']
-#     query = 'SELECT artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID WHERE concerts.concertDate = showDate'
-#     result = execute_query(db_connection, query).fetchall()
-#     print(result)
-#     return render_template('homepage.html', rows=result)
+   if request.method == 'GET':
+       return render_template('homepage.html')  
+
+#Search for a concert by date
+   elif request.method == 'POST':
+       showDate = request.form.get('date')
+       query = 'SELECT concerts.concertDate, artists.bandName, concerts.startTime, concerts.cost FROM concerts INNER JOIN artists ON concerts.artistID = artists.artistID WHERE concerts.concertDate = %s'
+       data = (showDate,)
+       result = execute_query(db_connection, query, data).fetchall()
+       print(result)
+       return render_template('homepage.html', rows=result)   
 
 ########################################
-# ARTISTS
+# DISPLAY ARTISTS
 ########################################
 @webapp.route('/display_artists')
 def display_artists():
@@ -35,6 +37,9 @@ def display_artists():
     print(result)
     return render_template('display_artists.html', rows=result)
 
+########################################
+# INSERT INTO ARTISTS TABLE
+########################################
 @webapp.route('/add_artist', methods=['POST','GET'])
 def add_artist():
     db_connection = connect_to_database()
@@ -54,7 +59,7 @@ def add_artist():
 
 
 ########################################
-# VENUES
+# DISPLAY VENUES
 ########################################
 @webapp.route('/display_venues')
 def display_venues():
@@ -65,6 +70,9 @@ def display_venues():
     print(result)
     return render_template('display_venues.html', rows=result)
 
+########################################
+# INSERT INTO VENUES TABLE
+########################################
 @webapp.route('/add_venue', methods=['POST','GET'])
 def add_venue():
     db_connection = connect_to_database()
@@ -85,7 +93,7 @@ def add_venue():
 
 
 ########################################
-# CUSTOMERS
+# DISPLAY CUSTOMERS
 ########################################
 @webapp.route('/display_customers')
 def display_customers():
@@ -96,6 +104,9 @@ def display_customers():
     print(result)
     return render_template('display_customers.html', rows=result)
 
+########################################
+# INSERT INTO CUSTOMERS TABLE
+########################################
 @webapp.route('/add_customer', methods=['POST','GET'])
 def add_customer():
     db_connection = connect_to_database()
@@ -113,7 +124,9 @@ def add_customer():
         execute_query(db_connection, query, data)
         return redirect('/display_customers')
 
-
+########################################
+# UPDATE CUSTOMER 
+########################################
 @webapp.route('/update_customer/<int:id>', methods=['POST','GET'])
 def update_customer(id):
     db_connection = connect_to_database()
@@ -143,33 +156,57 @@ def update_customer(id):
 
 
 ########################################
-# ORDERS
+# DISPLAY ORDERS
 ########################################
 @webapp.route('/display_orders')
 def display_orders():
     db_connection = connect_to_database()
-    query = 'SELECT orderID, customerID FROM orders'
+    query = 'SELECT orderID, customerID FROM orders ORDER BY orderID ASC'
     result = execute_query(db_connection, query).fetchall()
     print(result)
 
     return render_template('display_orders.html', rows=result)
 
+########################################
+# INSERT INTO ORDERS AND CONCERTS_ORDERS
+########################################
 @webapp.route('/add_order', methods=['POST', 'GET'])
 def add_order():
     db_connection = connect_to_database()
 
     if request.method == 'GET':
-        return redirect('/display_orders')
+        # db_connection = connect_to_database()
+        # orders_query = 'SELECT orderID, customerID FROM orders ORDER BY orderID'
+        # orders_result = execute_query(db_connection, orders_query).fetchall()
+        # print(orders_result)
+
+        concerts_query = 'SELECT concertID FROM concerts'
+        concerts_result = execute_query(db_connection, concerts_query).fetchall()
+        print(concerts_result)
+        
+        customers_query = 'SELECT customerID, firstName, lastName FROM customers'
+        customers_result = execute_query(db_connection, customers_query).fetchall()
+        print(customers_result)
+        #return render_template('/add_order.html', rows=orders_result, concerts=concerts_result, customers=customers_result)
+        return render_template('/add_order.html', concerts=concerts_result, customers=customers_result)
 
     elif request.method == 'POST':
-        orderID = request.form['orderID']
+        concertID = request.form['concertID']
         customerID = request.form['customerID']
+        #orderID = request.form['orderID']
+        quantity = request.form['quantity']
 
-        query = 'INSERT INTO orders (orderID, customerID) VALUES (%s,%s)'
-        data = (orderID, customerID)
-        execute_query(db_connection, query, data)
-        return redirect('/display_orders')
-
+        query_one = 'INSERT INTO orders (customerID) VALUES (%s)'
+        order_data = (customerID,)
+        execute_query(db_connection, query_one, order_data)
+        query_two = 'INSERT INTO concerts_orders (concertID, orderID, quantity) VALUES (%s,(SELECT max(orderID) FROM orders),%s)' 
+        concert_data = (concertID, quantity)
+        execute_query(db_connection, query_two, concert_data)
+        return redirect('/display_orders', )
+ 
+########################################
+# DELETE ORDER
+########################################
 @webapp.route('/delete_order/<int:deletion_id>')
 def delete_order(deletion_id):
     db_connection = connect_to_database()
@@ -181,7 +218,7 @@ def delete_order(deletion_id):
     
 
 ########################################
-# CONCERTS
+# DISPLAY CONCERTS
 ########################################
 @webapp.route('/display_concerts')
 def display_concerts():
@@ -200,6 +237,9 @@ def display_concerts():
     
     return render_template('display_concerts.html', concerts=concerts_result, artists=artists_result, venues=venues_result)
 
+########################################
+# INSERT INTO CONCERTS TABLE
+########################################
 @webapp.route('/add_concert', methods=['POST', 'GET'])
 def add_concert():
     db_connection = connect_to_database()
@@ -219,6 +259,9 @@ def add_concert():
         execute_query(db_connection, query, data)
         return redirect('/display_concerts')
 
+########################################
+# MAKE VENUE ATTRIBUTE NULL
+########################################
 @webapp.route('/update_concert/<int:concert_id>', methods=['POST','GET'])
 def update_concert(concert_id):
     db_connection = connect_to_database()
@@ -231,29 +274,62 @@ def update_concert(concert_id):
             return 'ERROR: Concert not found'
 
         return render_template('update_concert.html', concert = concert_result)
-    
+
     elif request.method == 'POST':
         concertID = request.form['concertID']
-        #artistID = request.form['artistID']
-        #venueID = request.form['venueID']
-        # startTime = request.form['startTime']
-        # concertDate = request.form['concertDate']
-        cost = request.form['cost']
+        venueID = request.form['venueID']
+        if venueID == "NULL":
+            venueID = None
 
-        query = 'UPDATE concerts SET cost = %s WHERE concertID = %s'
-        data = (cost, concertID)
+        query = 'UPDATE concerts SET venueID = %s WHERE concertID = %s'
+        data = (venueID,concertID)
         result = execute_query(db_connection, query, data)
         print(str(result.rowcount) + ' row(s) updated')
 
         return redirect('/display_concerts')
 
 ########################################
-# CONCERTS-ORDERS
+# DISPLAY CONCERTS_ORDERS
 ########################################
 @webapp.route('/concerts_orders')
+# def concerts_orders():
+#     db_connection = connect_to_database()
+#     query = 'SELECT concertID, orderID, quantity FROM concerts_orders'
+#     result = execute_query(db_connection, query).fetchall()
+#     print(result)
+#     return render_template('concerts_orders.html', rows=result)
 def concerts_orders():
     db_connection = connect_to_database()
-    query = 'SELECT concertID, orderID, quantity FROM concerts_orders'
-    result = execute_query(db_connection, query).fetchall()
-    print(result)
-    return render_template('concerts_orders.html', rows=result)
+    concerts_orders_query = 'SELECT concertID, orderID, quantity FROM concerts_orders'
+    concerts_orders_result = execute_query(db_connection, concerts_orders_query).fetchall()
+    print(concerts_orders_result)
+
+    orders_query = 'SELECT orderID FROM orders ORDER BY orderID'
+    orders_result = execute_query(db_connection, orders_query).fetchall()
+    print(orders_result)
+
+    concerts_query = 'SELECT concertID FROM concerts ORDER BY concertID'
+    concerts_result = execute_query(db_connection, concerts_query).fetchall()
+    print(concerts_result)
+    
+    return render_template('concerts_orders.html', rows=concerts_orders_result, orders=orders_result, concerts=concerts_result)
+
+########################################
+# INSERT INTO CONCERTS_ORDERS TABLE
+########################################
+@webapp.route('/add_concerts_orders', methods=['POST', 'GET'])
+def add_concerts_orders():
+    db_connection = connect_to_database()
+
+    if request.method == 'GET':
+        return redirect('/concerts_orders')
+
+    elif request.method == 'POST':
+        orderID = request.form['orderID']
+        concertID = request.form['concertID']
+        quantity = request.form['quantity']
+
+        query = 'INSERT INTO concerts_orders (orderID, concertID, quantity) VALUES (%s,%s,%s)'
+        data = (orderID, concertID, quantity)
+        execute_query(db_connection, query, data)
+        return redirect('/concerts_orders')   

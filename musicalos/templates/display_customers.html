@@ -29,7 +29,8 @@
                     <td>{{ r[2] }}</td>
                     <td>{{ r[3] }}</td>
                     <td>{{ r[4] }}</td>
-                    <td><a href="/update_customer/{{r[0]}}">Update</a></td>
+                    <td><input type="button" class="btn btn-success" name="Update" value="Update" onclick="window.location = '/update_customer/{{r[0]}}'"/></td>
+                    <!-- <td><a href="/update_customer/{{r[0]}}">Update</a></td> -->
                 </tr>
                 {% endfor %}
             </tbody>
